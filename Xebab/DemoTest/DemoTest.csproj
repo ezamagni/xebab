@@ -7,13 +7,13 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xebab</RootNamespace>
-    <AssemblyName>Xebab</AssemblyName>
+    <RootNamespace>DemoTest</RootNamespace>
+    <AssemblyName>DemoTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>0500872d-7de1-48c5-b01a-77b8f41bb33f</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -116,9 +116,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XebabContent\XebabContent.contentproj">
-      <Name>XebabContent</Name>
+    <ProjectReference Include="..\DemoTestContent\DemoTestContent.contentproj">
+      <Name>DemoTestContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{8CD341AA-7EC9-4A55-AC82-1875DFD69623}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
