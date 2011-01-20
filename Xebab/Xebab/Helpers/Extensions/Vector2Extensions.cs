@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Xebab.Model
+namespace Xebab.Helpers.Extensions
 {
 	public static class Vector2Extensions
 	{

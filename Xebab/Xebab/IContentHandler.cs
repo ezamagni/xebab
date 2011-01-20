@@ -16,5 +16,7 @@ namespace Xebab.Model
 
 		//generazione di una nuova texture (serve GraphicsDevice)
 		Texture2D CreateTexture(Size size);
+
+		void Update(Microsoft.Xna.Framework.GameTime gameTime);
 	}
 }

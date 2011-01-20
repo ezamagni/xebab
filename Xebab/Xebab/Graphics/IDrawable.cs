@@ -9,7 +9,6 @@ namespace Xebab.Graphics
 {
 	public interface IDrawable
 	{
-
 		 void Draw(SpriteBatch spriteBatch, Rectangle viewPort);
 
 	}

@@ -8,10 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Xebab.Input;
 using Xebab.Graphics.Effects;
 using Xebab.Graphics;
+using Xebab.Graphics.Camera;
 
 namespace Xebab
 {
-    public partial class ContentHandler : IContentHandler
+    public class ContentHandler : IContentHandler
     {
 		public SpriteHandler SpriteHandler { get; private set; }
 		public KeyboardHandler KeyboardHandler { get; private set; }
@@ -20,8 +21,10 @@ namespace Xebab
 		public SpriteGame ClientGame { get; private set; }
         public Level Level { get; private set; }
         public ResourceHandler ResourceHandler { get; private set; }
-
+		public Camera Camera { get; private set; }
         public SpriteBatch SpriteBatch { get; private set; }
+
+		private GraphicsDevice graphicsDevice;
 
         private ContentHandler(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Level level, ResourceHandler resourceHandler)
         {

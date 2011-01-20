@@ -1,5 +1,5 @@
 ﻿
-namespace Xebab
+namespace Xebab.Helpers
 {
 	public struct Size
 	{
