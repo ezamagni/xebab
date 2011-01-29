@@ -93,16 +93,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\Camera\Camera.cs" />
-    <Compile Include="Graphics\IDrawable.cs" />
+    <Compile Include="Graphics\Camera\CameraViewport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Graphics\ICameraDrawable.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Graphics\Sprites\SpriteAnimation.cs" />
     <Compile Include="Graphics\Sprites\SpriteHandler.cs" />
     <Compile Include="Helpers\AnchorHelper.cs" />
+    <Compile Include="Helpers\Extensions\RectangleExtensions.cs" />
     <Compile Include="Helpers\Math\Harmonic.cs" />
     <Compile Include="Helpers\Math\HarmonicPulsation.cs" />
-    <Compile Include="Helpers\Extensions\RectangleExtensions.cs" />
     <Compile Include="Helpers\Math\RandomProvider.cs" />
-    <Compile Include="Helpers\SimpleTimer.cs" />
+    <Compile Include="Helpers\SimpleClock.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Input\CursorHandler.cs" />
     <Compile Include="Input\KeyboardHandler.cs" />
     <Compile Include="Input\KeyTrap.cs" />
@@ -112,7 +119,9 @@
     <Compile Include="ContentHandler.cs" />
     <Compile Include="Helpers\Size.cs" />
     <Compile Include="Resources\FontResource.cs" />
-    <Compile Include="Resources\IResource.cs" />
+    <Compile Include="Resources\Resource.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Resources\ResourceHandler.cs" />
     <Compile Include="Resources\TextureResource.cs" />
     <Compile Include="Helpers\Polygons\Hull.cs" />

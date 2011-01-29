@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Xebab.Model
+namespace Xebab.Resources
 {
-    public interface IResource
+    public abstract class Resource
     {
-        string AssetName { get; }
+		public string AssetName { get; internal set; }
     }
 }

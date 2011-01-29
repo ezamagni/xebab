@@ -41,7 +41,7 @@ namespace Xebab.Helpers.Extensions
 		/// <summary>
 		/// Vector2 comparer for the Convex Hull monotone chain algorithm
 		///</summary>
-		public static int CompareLefToRight(Vector2 a, Vector2 b)
+		public static int CompareLeftToRight(Vector2 a, Vector2 b)
 		{
 			if (a.X < b.X)
 			{

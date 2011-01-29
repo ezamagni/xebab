@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using Xebab.Helpers.Extensions;
 
-namespace Xebab.Model.Polygons
+namespace Xebab.Helpers.Polygons
 {
 	public partial class Polygon
 	{
@@ -14,7 +15,7 @@ namespace Xebab.Model.Polygons
 			Vector2[] hull = new Vector2[2 * n];
 
 			// sort vertexes lexicographically
-			Array.Sort<Vector2>(inputVerts, Vector2Extensions.CompareLefToRight);
+			Array.Sort<Vector2>(inputVerts, Vector2Extensions.CompareLeftToRight);
 
 			// build lower hull
 			for (int i = 0; i < n; i++)

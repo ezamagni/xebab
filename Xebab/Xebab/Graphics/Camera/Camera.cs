@@ -1,14 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Xebab.Graphics.Sprites;
-using Microsoft.Xna.Framework.Design;
-using Xebab.Model;
 using Xebab.Helpers;
-using Xebab.Graphics.Effects;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Collections;
 
 namespace Xebab.Graphics.Camera
 {
@@ -24,11 +20,8 @@ namespace Xebab.Graphics.Camera
 	 * dalla classe principale
 	 */
 	
-    public class Camera : DrawableGameComponent
+    public class Camera 
     {
-        private Scene scene;
-        protected SpriteBatch spriteBatch;
-
         public int spritesDrawn = 0; //DEBUG
 
         //current camera speed
@@ -104,11 +97,11 @@ namespace Xebab.Graphics.Camera
         public Size ViewportSize { get; set; }
 
         //current camera View box
-        public Rectangle ViewportBox
+        public CameraViewport Viewport
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, ViewportSize.Width, ViewportSize.Height);
+				throw new NotImplementedException();
             }
         }
 
@@ -125,14 +118,7 @@ namespace Xebab.Graphics.Camera
          */
 
         public Camera(Scene scene, Vector2 position, Size viewSize)
-            : base(scene.ClientGame)
         {
-            this.scene = scene;
-            
-            //ANALISI: ATROCITA!
-            scene.camera = this;
-
-            this.spriteBatch = scene.SpriteBatch;
             this.ViewportSize = viewSize;
             this.Acceleration = DEFAULT_ACCELERATION;
             this.Position = position;
@@ -142,16 +128,8 @@ namespace Xebab.Graphics.Camera
             SetViewportPosition(Vector2.Zero);
         }
 
-
-        /*
-         * PUBLIC METHODS
-         */
-
-        #region OVERRIDES
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (!IsTargeting)
             {
                 curMovementMode = MovementMode;
@@ -223,24 +201,6 @@ namespace Xebab.Graphics.Camera
             }
         }
 
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-
-            Rectangle prevScissor = spriteBatch.GraphicsDevice.ScissorRectangle;
-            spriteBatch.GraphicsDevice.ScissorRectangle = new Rectangle((int)Position.X, (int)Position.Y, ViewportSize.Width, ViewportSize.Height);
-
-            DrawFloor();
-            DrawEffects();
-            DrawSprites();
-            
-
-            spriteBatch.GraphicsDevice.ScissorRectangle = prevScissor;
-        }
-        #endregion
-
-
         public Vector2 GetViewportPosition(RectAnchors anchor)
         {
             return AnchorHelper.GetAnchoredPosition(ViewportSize, ViewPortPosition, anchor);
@@ -292,114 +252,6 @@ namespace Xebab.Graphics.Camera
         public void SetTarget(Vector2 target, RectAnchors anchor)
         {
             SetTarget(AnchorHelper.GetTopLeftPosition(ViewportSize, target, anchor));
-        }
-
-        public Block HitBlock(Vector2 point)
-        {
-            return scene.HitBlock(point + viewportPosition - Position);
-        }
-
-
-        /*
-         * PRIVATE METHODS
-         */
-
-        private void DrawFloor()
-        {
-            Level level = scene.Level;
-            Vector2 curTile = new Vector2(level.StartX - ViewPortPosition.X + Position.X, -ViewPortPosition.Y + Position.Y);
-            Vector2 curRow = curTile;
-            Vector2 columnShift = new Vector2(level.BaseTileSize.Width / 2, level.BaseTileSize.Height / 2);
-            Vector2 rowShift = new Vector2(-level.BaseTileSize.Width / 2, level.BaseTileSize.Height / 2);
-            Rectangle viewport = new Rectangle((int)Position.X, (int)Position.Y, ViewportSize.Width, ViewportSize.Height);
-
-            for (int r = 0; r < level.Rows; r++)
-            {
-                for (int c = 0; c < level.Cols; c++)
-                {
-                    Rectangle tileRect = new Rectangle((int)curTile.X, (int)curTile.Y, level.Blocks[r, c].Tile.Width, level.Blocks[r, c].Tile.Height);
-                    //check if this tile is inside viewport
-                    if (tileRect.Intersects(viewport))
-                    {
-                        spriteBatch.Draw(level.Blocks[r, c].Tile, curTile, level.Blocks[r, c].Tint);
-                    }
-
-                    curTile += columnShift;
-                }
-
-                curRow += rowShift;
-                curTile = curRow;
-            }
-        }
-        private void DrawEffects()
-        {
-            Rectangle screen = new Rectangle((int)Position.X, (int)Position.Y, ViewportSize.Width, ViewportSize.Height);
-
-            foreach (Xebab.Graphics.Effects.Effect e in scene.EffectHandler.Effects)
-            {
-                if (e.DrawTarget == RenderTarget.CameraViewport)
-                {
-                    Rectangle effectBox = new Rectangle((int)(e.Position.X - ViewPortPosition.X + Position.X),
-                                            (int)(e.Position.Y - ViewPortPosition.Y + Position.Y),
-                                            e.Size.Width, e.Size.Height);
-                    if (!effectBox.Intersects(screen))
-                        continue;
-
-                    e.Draw(spriteBatch, ViewPortPosition - Position);
-                }
-            }
-        }
-
-        private void DrawSprites()
-        {
-            Rectangle screen = new Rectangle((int)Position.X, (int)Position.Y, ViewportSize.Width, ViewportSize.Height);
-            spritesDrawn = 0;
-
-            foreach (Sprite s in scene.SpriteHandler.DescendingSprites)
-            {
-                Rectangle spriteBox = new Rectangle((int)(s.Position.X - ViewPortPosition.X + Position.X),
-                                        (int)(s.Position.Y - s.Altitude - ViewPortPosition.Y + Position.Y),
-                                        s.TextureResource.FrameSize.Width, s.TextureResource.FrameSize.Height);
-
-                //check if this effect is inside viewport
-                if (spriteBox.Intersects(screen))
-                {
-                    spriteBatch.Draw(s.TextureResource.Texture, spriteBox, s.CurrentFrame, Color.White);
-                    spritesDrawn++;
-                }
-            }
-        }
-
-        public IEnumerable<Sprite> GetOnScreenSprites()
-        {
-            Rectangle screen = new Rectangle(0, 0, ViewportSize.Width, ViewportSize.Height);
-            Rectangle curSprite;
-
-            foreach (Sprite s in scene.SpriteHandler.Sprites)
-            {
-                curSprite = new Rectangle((int)(s.Position.X - ViewPortPosition.X), (int)(s.Position.Y - ViewPortPosition.Y),
-                                        s.TextureResource.FrameSize.Width, s.TextureResource.FrameSize.Height);
-                if (curSprite.Intersects(screen))
-                {
-                    yield return s;
-                }
-            }
-        }
-
-        public IEnumerable GetOnScreenSprites<T>() where T : Sprite
-        {
-            Rectangle screen = new Rectangle(0, 0, ViewportSize.Width, ViewportSize.Height);
-            Rectangle curSprite;
-
-            foreach (T s in scene.SpriteHandler.Sprites.OfType<T>())
-            {
-                curSprite = new Rectangle((int)(s.Position.X - ViewPortPosition.X), (int)(s.Position.Y - ViewPortPosition.Y),
-                                        s.TextureResource.FrameSize.Width, s.TextureResource.FrameSize.Height);
-                if (curSprite.Intersects(screen))
-                {
-                    yield return s;
-                }
-            }
         }
 
         private void ComputeParameters(float distance)

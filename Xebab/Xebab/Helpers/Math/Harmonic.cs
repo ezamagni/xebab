@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace Xebab.Helpers.Math
+namespace Xebab.Helpers.Maths
 {
-
     public class Harmonic
     {
         public List<Harmonic> Components { get; set; }

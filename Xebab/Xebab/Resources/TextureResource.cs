@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Xebab.Model;
+using Xebab.Helpers;
 
-namespace Xebab.Graphics.Sprites
+namespace Xebab.Resources
 {
-    public class TextureResource : IResource
+    public class TextureResource : Resource
     {
         public Texture2D Texture { get; internal set; }
-        public string AssetName { get; internal set; }
-
 		public Size FrameSize { get; set; }
 	}
 }

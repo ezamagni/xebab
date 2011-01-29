@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xebab.Model;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace Xebab.Graphics.Font
+namespace Xebab.Resources
 {
-    public class FontResource : IResource
+    public class FontResource : Resource
     {
         public SpriteFont Font { get; internal set; }
-        public string AssetName { get; internal set; }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Xebab.Helpers.Extensions;
 
-namespace Xebab.Model.Polygons
+namespace Xebab.Helpers.Polygons
 {
 	public partial class Polygon
 	{

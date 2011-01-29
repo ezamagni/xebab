@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Xebab.Helpers.Math
+namespace Xebab.Helpers.Maths
 {
 	public class HarmonicPulsation : Harmonic
 	{

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Xebab.Model
+namespace Xebab.Resources
 {
     public class ResourceHandler
     {
-        private List<IResource> resources;
+        private List<Resource> resources;
 
-        internal ResourceHandler(List<IResource> resources)
+        internal ResourceHandler(List<Resource> resources)
         {
             this.resources = resources;
         }
 
-        public T GetResource<T>(string assetName) where T:IResource
+        public T GetResource<T>(string assetName) where T:Resource
         {
             if (assetName == null)
                 throw new ArgumentNullException("assetName");

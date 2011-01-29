@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xebab.Graphics.Sprites;
-using Xebab.Model;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Xebab.Input;
-using Xebab.Graphics.Effects;
-using Xebab.Graphics;
 using Xebab.Graphics.Camera;
+using Xebab.Graphics.Sprites;
+using Xebab.Helpers;
+using Xebab.Input;
+using Xebab.Resources;
 
 namespace Xebab
 {
@@ -17,8 +13,9 @@ namespace Xebab
 		public SpriteHandler SpriteHandler { get; private set; }
 		public KeyboardHandler KeyboardHandler { get; private set; }
         public CursorHandler CursorHandler { get; private set; }
-		public EffectHandler EffectHandler { get; private set; }
-		public SpriteGame ClientGame { get; private set; }
+
+		//ANALISI: i decal possono alternativamente essere autonomamente gestiti dalle sprite
+		//public EffectHandler EffectHandler { get; private set; }
         public Level Level { get; private set; }
         public ResourceHandler ResourceHandler { get; private set; }
 		public Camera Camera { get; private set; }
@@ -26,28 +23,38 @@ namespace Xebab
 
 		private GraphicsDevice graphicsDevice;
 
-        private ContentHandler(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Level level, ResourceHandler resourceHandler)
+        internal ContentHandler(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Level level, ResourceHandler resourceHandler)
         {
-            SpriteBatch = game.SpriteBatch;
-			
-			//magnificent 6 (level, effect, keyboard, mouse, sound, effects)
+            SpriteBatch = spriteBatch;
 			Level = level;
 			SpriteHandler = new SpriteHandler();
 			KeyboardHandler = new KeyboardHandler();
             CursorHandler = new CursorHandler();
-			EffectHandler = new EffectHandler();
+			//EffectHandler = new EffectHandler();
             ResourceHandler = resourceHandler;
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
 			SpriteHandler.Update(gameTime);
 			KeyboardHandler.Update(gameTime);
             CursorHandler.Update(gameTime);
-			EffectHandler.Update(gameTime);
+			//EffectHandler.Update(gameTime);
         }
 
-    }
+		public void Draw()
+		{
+			foreach (Sprite sprite in SpriteHandler.Sprites)
+			{
+				//TODO: calcolare layerDepth
+
+				sprite.Draw(SpriteBatch, Camera.Viewport, 0);
+			}
+		}
+
+		public Texture2D CreateTexture(Size size)
+		{
+			throw new System.NotImplementedException();
+		}
+	}
 }

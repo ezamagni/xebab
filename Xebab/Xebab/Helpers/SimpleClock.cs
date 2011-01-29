@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace Xebab.Helpers
 {
-    public class SimpleTimer
+    public class SimpleClock
     {
         private int timeSinceLastFrame;
         private int delay;
@@ -14,7 +10,7 @@ namespace Xebab.Helpers
         public int Interval { get; set; }
         public bool Enabled { get; set; }
 
-		public SimpleTimer(int interval, int delay = 0)
+		public SimpleClock(int interval, int delay = 0)
         {
             Interval = interval;
             Enabled = true;
