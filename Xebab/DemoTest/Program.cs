@@ -1,6 +1,6 @@
 using System;
 
-namespace Xebab
+namespace DemoTest
 {
 #if WINDOWS || XBOX
     static class Program

@@ -121,6 +121,10 @@
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{8CD341AA-7EC9-4A55-AC82-1875DFD69623}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Xebab\Xebab.csproj">
+      <Project>{9C2423E9-8D64-4F7A-B1B1-40659EC090B6}</Project>
+      <Name>Xebab</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
