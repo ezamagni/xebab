@@ -2,94 +2,64 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Xebab.Behaviors;
 using Xebab.Graphics.Camera;
 using Xebab.Helpers.Polygons;
 
 namespace Xebab.Graphics.Sprites
 {
-	public class Game
-	{
-		public void SonoNelgioco()
-		{
-			var sprite = new Personaggio();
-			sprite.AddBehaviour(new MovingBehaviour(sprite));
-		}
-	}
-
-	public interface IBehaviour
-	{
-		void Update(GameTime gametime);
-	}
-
-	//generica vale anche per decals
-	public abstract class Behaviour<T> : IBehaviour where T : class
-	{
-		protected T lui;
-
-		public Behaviour(T lui)
-		{
-			this.lui = lui;
-		}
-
-		public abstract void Update(GameTime gametime);
-	}
-
-	//lato client
-	public class MovingBehaviour : Behaviour<Sprite>
-	{
-		public MovingBehaviour(Sprite lui)
-			: base(lui)
-		{ }
-
-		public override void Update(GameTime gametime)
-		{
-			lui.Position = new Vector2(10, 20);
-			//throw new NotImplementedException();
-		}
-	}
-
-	public class Personaggio : Sprite
-	{
-		public int PuntiVita { get; set; }
-
-
-		public override void Update(GameTime gameTime)
-		{
-			throw new NotImplementedException();
-		}
-	}
-
-	public abstract class Sprite : ICameraDrawable
+	public abstract class Sprite : ICameraDrawable , IBehavable
 	{
 		public virtual DrawInterval DrawInterval
 		{
 			get { return DrawInterval.VerticalSorted; }
 		}
 
-		public Rectangle BoundingBox { get; private set; }
-		public Vector2 Position { get; set; }
-		public int Altitude { get; set; }
-		protected IContentHandler contentHandler;
-		private List<Polygon> shapeSet;
-		private float spriteBatchLevel;
+        public abstract Rectangle BoundingBox { get; }
+        public abstract Vector2 Position { get; set; }
+        public abstract int Altitude { get; set; }
 
-		private List<IBehaviour> behaviours;
+        protected IContentHandler contentHandler;
+        protected List<Polygon> shapeSet;
+		public List<Polygon> ShapeSet { get { return shapeSet; } }
+        protected List<IBehavior> behaviors;
+        protected Queue<IBehavior> behaviorsToRemove;
 
-		public Sprite()
+		public Sprite(IContentHandler contentHandler, List<Polygon> shapeSet)
 		{
-			behaviours = new List<IBehaviour>();
+            this.contentHandler = contentHandler;
+            this.shapeSet = shapeSet;
+
+            behaviors = new List<IBehavior>();
+            behaviorsToRemove = new Queue<IBehavior>();
 		}
 
-		public void AddBehaviour(IBehaviour behaviour)
-		{
-			behaviours.Add(behaviour);
-		}
+        public abstract void Draw(SpriteBatch spriteBatch, CameraViewport viewport, float layerDepth);
 
-		public void Draw(SpriteBatch spriteBatch, CameraViewport viewport, float layerDepth)
-		{
-			throw new NotImplementedException();
-		}
+        public virtual void Update(GameTime gameTime)
+        {
+            //Remove behaviors scheduled for deletion
+            while (behaviorsToRemove.Count > 0)
+            {
+                behaviors.Remove(behaviorsToRemove.Dequeue());
+            }
+            
+            //Update each behavior
+            foreach (IBehavior b in behaviors)
+            {
+                if (b.Active) b.Update(gameTime);
+            }
+        }
 
-		public abstract void Update(GameTime gameTime);
-	}
+        public void AddBehavior(IBehavior behavior)
+        {
+            behaviors.Add(behavior);
+        }
+
+        public void RemoveBehavior(IBehavior behavior)
+        {
+            behaviorsToRemove.Enqueue(behavior);
+        }
+
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 
 namespace DemoTest
 {
@@ -8,9 +9,11 @@ namespace DemoTest
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+		[STAThread]
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            //using (Game game = new Editor.GameEditor())
+			using (Game game = new Game2())
             {
                 game.Run();
             }

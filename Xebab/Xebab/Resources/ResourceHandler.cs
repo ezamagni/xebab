@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Xebab.Resources
 {
@@ -21,7 +20,6 @@ namespace Xebab.Resources
 
             T resource = resources.OfType<T>().SingleOrDefault(r => r.AssetName == assetName);
 
-            //TODO -oALEX: non ho avuto tempo, creare la classe    TextureResourceNotFoundException : Exception
             if (resource == null)
                 throw new TextureResourceNotFoundException(assetName);
 

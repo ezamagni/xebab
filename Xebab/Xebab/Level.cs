@@ -4,6 +4,8 @@ using Xebab.Graphics.Camera;
 using Xebab.Helpers;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using Xebab.Helpers.Polygons;
 
 namespace Xebab
 {
